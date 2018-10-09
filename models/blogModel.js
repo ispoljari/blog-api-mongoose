@@ -17,18 +17,22 @@ const postSchema = mongoose.Schema({
   comments: [commentSchema]
 });
 
-// postSchema.virtual('authorName').get(function() {
-//   return `${this.author.firstName} ${this.author.lastName}`.trim();
-// });
+postSchema.pre('find', function(next) {
+  this.populate('author');
+  next();
+})
 
-// postSchema.methods.serialize = function() {
-//   return {
-//     id: this._id,
-//     title: this.title,
-//     content: this.content,
-//     author: this.authorName,
-//   }
-// }
+postSchema.virtual('authorName').get(function() {
+  return `${this.author.firstName} ${this.author.lastName}`.trim();
+});
+
+postSchema.methods.serialize = function() {
+  return {
+    title: this.title,
+    author: this.authorName,
+    content: this.content
+  }
+}
 
 const Post = mongoose.model('Blogposts', postSchema);
 module.exports = {Post};

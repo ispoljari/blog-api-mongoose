@@ -18,10 +18,9 @@ const {Post} = require('../models/blogModel');
 router.get('/', (req, res) => {
   Post
   .find()
-  .populate('author')
   .then(posts => {
-    // res.json(posts.map(post => post.serialize()
-    res.status(200).json(posts);
+    res.status(200).json(posts.map(post => post.serialize()));
+    // res.status(200).json(posts);
     })
   .catch(err => {
     console.error(err);
