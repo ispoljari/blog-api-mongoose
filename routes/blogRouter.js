@@ -19,42 +19,31 @@ router.get('/', (req, res) => {
   Post
   .find()
   .then(posts => {
-    res.status(200).json(posts.map(post => post.serialize()));
-    // res.status(200).json(posts);
-    })
+    res.status(200).json(posts.map(post =>         post.serializeAll())
+    );
+  })
   .catch(err => {
     console.error(err);
     res.status(500).json({message: 'Internal server error'});
   });
 });
 
-// BlogPost
-//   .findOne({
-//     title: 'another title'
-//   })
-//   .populate('author')
-//   .then(function (err, post) {
-//     if (err) {
-//       console.log(err);
-//     } else {
-//       console.log(post.author.firstName, post.author.lastName);
-//     }
-//   });
 
-// // READ post with certain ID
-// router.get('/:id', (req, res) => {
-//   Post
-//   .findById(req.params.id)
-//   .then(post => 
-//     res.json(post.serialize())
-//   )
-//   .catch(err => {
-//     console.error(err);
-//     res.status(500).json({message: 'Internal server error'});
-//   });
-// });
+// READ post with certain ID
+router.get('/:id', (req, res) => {
+  Post
+  .findById(req.params.id)
+  .populate('author')
+  .then(post => 
+    res.status(200).json(post.serializeOne())
+  )
+  .catch(err => {
+    console.error(err);
+    res.status(500).json({message: 'Internal server error'});
+  });
+});
 
-// // CREATE post
+// CREATE post
 
 // function validateRequiredFields(req, res, requiredFields, location) {
 //   for (let i=0; i<requiredFields.length; i++) {

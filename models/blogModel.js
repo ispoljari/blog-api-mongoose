@@ -17,20 +17,35 @@ const postSchema = mongoose.Schema({
   comments: [commentSchema]
 });
 
+// add middleware before find() 
+
 postSchema.pre('find', function(next) {
   this.populate('author');
   next();
-})
+});
+
+// create a virtual property with the authors full name
 
 postSchema.virtual('authorName').get(function() {
   return `${this.author.firstName} ${this.author.lastName}`.trim();
 });
 
-postSchema.methods.serialize = function() {
+// create instance methods which filter return data
+
+postSchema.methods.serializeAll = function() {
   return {
     title: this.title,
     author: this.authorName,
     content: this.content
+  }
+}
+
+postSchema.methods.serializeOne = function() {
+  return {
+    title: this.title,
+    author: this.authorName,
+    content: this.content,
+    comments: this.comments
   }
 }
 
