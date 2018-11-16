@@ -1,7 +1,7 @@
 # blog-app
 
 ## Description
-- A simple RESTful API running on a NodeJS server and hosted on Heroku (link: https://shrouded-lake-97383.herokuapp.com/posts)
+- A simple RESTful API running on a NodeJS server
 
 - No frontend code.
 
